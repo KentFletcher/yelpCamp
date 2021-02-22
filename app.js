@@ -17,6 +17,7 @@ db.once('open', () => {
 //middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
 
 //**ROUTES**
 app.get('/', (req, res) => {
@@ -25,7 +26,20 @@ app.get('/', (req, res) => {
 
 app.get('/campgrounds', async (req, res) => {
   const camps = await Campground.find({});
-  res.render('campgrounds/index', { camps })
+  res.render('campgrounds/index', { camps });
+})
+
+//Create a new campground
+//serve form to create the new campground
+app.get('/campgrounds/new', (req, res) => {
+  res.render('campgrounds/new')
+})
+
+//post route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance 
+app.post('/campgrounds', async (req, res) => {
+  const newCampground = new Campground(req.body.campground);
+  await newCampground.save();
+  res.redirect(`/campgrounds/${newCampground._id}`)
 })
 
 //READ/SHOW route for individual campgrounds
