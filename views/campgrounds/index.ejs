@@ -1,14 +1,17 @@
-<%- include('../partials/head') %>
+<%- include('../layout/head') %>
 
   <h1>YelpCamp</h1>
 
-  <% for(let camp of camps) { %>
-    <h2>
-      <%= camp.title %>
-    </h2>
-    <h3>
-      <%= camp.location %>
-    </h3>
-    <% } %>
+  <ul>
+    <% for(let camp of camps) { %>
+      <li>
+        <b>
+          <%= camp.title %>
+        </b>
+        - <%= camp.location %>
+      </li>
+      <% } %>
+  </ul>
 
-      <%- include('../partials/footer') %>
+
+  <%- include('../layout/footer') %>
