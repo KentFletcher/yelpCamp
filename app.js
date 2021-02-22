@@ -18,7 +18,7 @@ db.once('open', () => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//routes
+//**ROUTES**
 app.get('/', (req, res) => {
   res.render('home')
 })
@@ -26,6 +26,13 @@ app.get('/', (req, res) => {
 app.get('/campgrounds', async (req, res) => {
   const camps = await Campground.find({});
   res.render('campgrounds/index', { camps })
+})
+
+//READ/SHOW route for individual campgrounds
+app.get('/campgrounds/:id', async (req, res) => {
+  const { id } = req.params;
+  const camp = await Campground.findById(id);
+  res.render('campgrounds/show', { camp })
 })
 
 //start server listening for requests
