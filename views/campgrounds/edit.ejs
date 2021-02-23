@@ -1,0 +1,22 @@
+<%- include('../layout/head') %>
+  <h1>
+    Edit Campground:<%= camp.title %>
+  </h1>
+  <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST">
+    <label for="title">Enter Campground Name: </label>
+    <input type="text" id="title" name="campground[title]" placeholder="Name of campground" value="<%= camp.title %> ">
+    <section>
+      <h2>Location of campground:</h2>
+      <label for="location">location: </label>
+      <input type="text" id="location" name="campground[location]" placeholder="City, State"
+        value="<%= camp.location %>">
+      <!-- <label for="state">State: </label>
+        <input type="text" id="state" name="state" placeholder="Enter city here"> -->
+    </section>
+    <button>Update campsite</button>
+
+  </form>
+  <a href="/campgrounds">Return to Campgrounds List</a>
+  <a href="/campgrounds/<%= camp._id %>">Exit</a>
+
+  <%- include('../layout/footer') %>
