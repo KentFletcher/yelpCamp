@@ -13,6 +13,9 @@
   <h3>
     Locations ID: <%= camp._id %>
   </h3>
+  <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
+    <button>Remove Campsite!!</button>
+  </form>
 
   <a href="/campgrounds/<%= camp._id %>/edit">Edit Campground</a>
   <br>

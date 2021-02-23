@@ -63,8 +63,16 @@ app.get('/campgrounds/:id/edit', async (req, res) => {
 //PUT route for changing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
 app.put('/campgrounds/:id', async (req, res) => {
   const { id } = req.params;
-  const updatedCamp = await Campground.findByIdAndUpdate(id, req.body.campground, { runValidators: true, new: true });
+  const updatedCamp = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { runValidators: true, new: true });
   res.redirect(`/campgrounds/${updatedCamp._id}`)
+})
+
+//DESTROY
+//Delete route to find a specific instance of one campground and remove that camp and all its data from the database.
+app.delete('/campgrounds/:id', async (req, res) => {
+  const { id } = req.params;
+  await Campground.findByIdAndDelete(id);
+  res.redirect('/campgrounds')
 })
 
 //start server listening for requests
