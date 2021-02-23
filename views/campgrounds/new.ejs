@@ -1,0 +1,19 @@
+<%- include('../layout/head') %>
+
+  <h1>Add New Campground:</h1>
+  <form action="/campgrounds" method="POST">
+    <label for="title">Enter Campground Name: </label>
+    <input type="text" id="title" name="campground[title]" placeholder="Name of campground">
+    <section>
+      <h2>Location of campground:</h2>
+      <label for="location">location: </label>
+      <input type="text" id="location" name="campground[location]" placeholder="City, State">
+      <!-- <label for="state">State: </label>
+      <input type="text" id="state" name="state" placeholder="Enter city here"> -->
+    </section>
+    <button>Add new campsite</button>
+
+  </form>
+  <a href="/campgrounds">Return to Campgrounds List</a>
+
+  <%- include('../layout/footer') %>

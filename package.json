@@ -2,7 +2,7 @@
   "name": "y",
   "version": "1.0.0",
   "description": "A project to practice express, and other development skills.  This application will allow users to rate and view campsites through out the US.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

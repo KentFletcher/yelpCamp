@@ -1,0 +1,19 @@
+<%- include('../layout/head') %>
+
+  <h1>All Campgrounds</h1>
+  <a href="/campgrounds/new">Add New Campground</a>
+
+  <ul>
+    <% for(let camp of camps) { %>
+      <li>
+        <b>
+          <%= camp.title %>
+        </b>
+        - <%= camp.location %>
+          <a href="/campgrounds/<%= camp._id %>">details</a>
+      </li>
+      <% } %>
+  </ul>
+
+
+  <%- include('../layout/footer') %>
