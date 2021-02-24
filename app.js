@@ -1,7 +1,7 @@
 //Installed dependencies and libraries
 const express = require('express');
 const app = express();
-const engine = require('ejs-mate')
+const ejsMate = require('ejs-mate')
 const path = require('path');
 const mongoose = require('mongoose');
 const Campground = require('./models/campgrounds');
@@ -17,7 +17,7 @@ db.once('open', () => {
 });
 
 //middleware
-app.engine('ejs', engine); //use ejs locals for all ejs templates
+app.engine('ejs', ejsMate); //use ejs locals for all ejs templates
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
