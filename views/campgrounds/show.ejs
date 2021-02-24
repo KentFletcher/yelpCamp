@@ -1,18 +1,16 @@
 <% layout('layout/boilerplate') %>
 
-  <h1>Camp details: </h1>
+  <h1>Camp Name: <%= camp.title %>
+  </h1>
 
   <h2>
-    Camp Name: <%= camp.title %>
-
-  </h2>
-  <h3>
     Location: <%= camp.location %>
-  </h3>
+  </h2>
 
-  <h3>
-    Locations ID: <%= camp._id %>
-  </h3>
+  <img src="<%= camp.image %>" alt="">
+  <p>
+    <%= camp.description %>
+  </p>
   <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
     <button>Remove Campsite!!</button>
   </form>
