@@ -30,13 +30,13 @@ app.get('/', (req, res) => {
 
 app.get('/campgrounds', async (req, res) => {
   const camps = await Campground.find({});
-  res.render('campgrounds/index', { camps });
+  res.render('campgrounds/index', { camps, title: 'All Campgrounds' });
 })
 
 //CREATE a new campground
 //serve form to create the new campground
 app.get('/campgrounds/new', (req, res) => {
-  res.render('campgrounds/new')
+  res.render('campgrounds/new', { title: 'Add Campground' })
 })
 
 
@@ -51,7 +51,7 @@ app.post('/campgrounds', async (req, res) => {
 app.get('/campgrounds/:id', async (req, res) => {
   const { id } = req.params;
   const camp = await Campground.findById(id);
-  res.render('campgrounds/show', { camp })
+  res.render('campgrounds/show', { camp, title: camp.title })
 })
 
 //UPDATE 
@@ -59,7 +59,7 @@ app.get('/campgrounds/:id', async (req, res) => {
 app.get('/campgrounds/:id/edit', async (req, res) => {
   const { id } = req.params;
   const camp = await Campground.findById(id);
-  res.render('campgrounds/edit', { camp })
+  res.render('campgrounds/edit', { camp, title: `Update ${camp.title}` })
 })
 
 //PUT route for changing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
