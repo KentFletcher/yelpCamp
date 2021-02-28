@@ -5,6 +5,7 @@ const ejsMate = require('ejs-mate')
 const path = require('path');
 const mongoose = require('mongoose');
 const catchAsync = require('./utilities/catchAsync');
+const ExpressError = require('./utilities/ExpressError');
 const Campground = require('./models/campgrounds');
 const methodOverride = require('method-override');
 
@@ -43,6 +44,7 @@ app.get('/campgrounds/new', (req, res) => {
 
 //POST route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance 
 app.post('/campgrounds', catchAsync(async (req, res) => {
+  if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
   const newCampground = new Campground(req.body.campground);
   await newCampground.save();
   res.redirect(`/campgrounds/${newCampground._id}`)
@@ -78,7 +80,14 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
   res.redirect('/campgrounds')
 }))
 
+//Catch all error handler for a route that had not been defined
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page Not Found', 404))
+})
+
 app.use((err, req, res, next) => {
+  const { statusCode = 500, message = 'Something went wrong' } = err;
+  res.status(statusCode).send(message)
   res.send('OH NO , SOMETHING WENT WRONG!!!!!!!')
 })
 
