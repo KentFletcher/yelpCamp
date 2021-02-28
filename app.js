@@ -86,9 +86,9 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = 'Something went wrong' } = err;
-  res.status(statusCode).send(message)
-  res.send('OH NO , SOMETHING WENT WRONG!!!!!!!')
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'OH NO , SOMETHING WENT WRONG!!!!!!!';
+  res.status(statusCode).render('error', { err })
 })
 
 //start server listening for requests
