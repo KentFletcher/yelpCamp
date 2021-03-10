@@ -26,6 +26,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+//middleware to handle server-side validation
 const validateCampground = (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body);
   if (error) {
@@ -46,13 +47,11 @@ app.get('/campgrounds', catchAsync(async (req, res) => {
   res.render('campgrounds/index', { camps, title: 'All Campgrounds' });
 }))
 
-//CREATE a new campground
+//CREATE
 //serve form to create the new campground
 app.get('/campgrounds/new', (req, res) => {
   res.render('campgrounds/new', { title: 'Add Campground' })
 })
-
-
 //POST route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler 
 app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
   const newCampground = new Campground(req.body.campground);
@@ -60,7 +59,8 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
   res.redirect(`/campgrounds/${newCampground._id}`)
 }))
 
-//READ/SHOW route for individual campgrounds
+//READ
+// SHOW route for individual campgrounds
 app.get('/campgrounds/:id', catchAsync(async (req, res) => {
   const { id } = req.params;
   const camp = await Campground.findById(id);
@@ -74,7 +74,6 @@ app.get('/campgrounds/:id/edit', catchAsync(async (req, res) => {
   const camp = await Campground.findById(id);
   res.render('campgrounds/edit', { camp, title: `Update ${camp.title}` })
 }))
-
 //PUT route for changing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
 app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res) => {
   const { id } = req.params;
