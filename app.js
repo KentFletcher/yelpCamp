@@ -8,6 +8,7 @@ const { campgroundSchema } = require('./schemas.js')
 const catchAsync = require('./utilities/catchAsync');
 const ExpressError = require('./utilities/ExpressError');
 const Campground = require('./models/campgrounds');
+const Review = require('./models/review')
 const methodOverride = require('method-override');
 
 //Connect to mongo DB using mongoose
@@ -87,6 +88,17 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
   const { id } = req.params;
   await Campground.findByIdAndDelete(id);
   res.redirect('/campgrounds')
+}))
+
+//Review Routes
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  const review = new Review(req.body.review)
+  campground.reviews.push(review);
+  await review.save();
+  await campground.save();
+  res.redirect(`/campgrounds/${campground.id}`);
 }))
 
 //Catch all error handler for a route that had not been defined
