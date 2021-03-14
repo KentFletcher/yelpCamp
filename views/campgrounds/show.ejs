@@ -57,14 +57,22 @@
           <h3>Reviews</h3>
         </div>
         <div class="card-body ">
-          <% for(let review of camp.reviews) { %>
-            <h5 class="card-title">
-              Rating: <%= review.rating %>
-            </h5>
-            <p class="card-text">
-              Review: <%= review.body %>
-            </p>
+          <% if(camp.reviews.length===0) { %>
+            <h5>No Reviews Yet! Be the First to Leave One!!</h5>
             <% } %>
+              <% for(let review of camp.reviews) { %>
+                <h5 class="card-title">
+                  Rating: <%= review.rating %>
+                </h5>
+                <p class="card-text">
+                  Review: <%= review.body %>
+                </p>
+                <div class="bd-highlight">
+                  <form action="/campgrounds/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger">Delete Review!</button>
+                  </form>
+                </div>
+                <% } %>
         </div>
       </div>
     </div>
