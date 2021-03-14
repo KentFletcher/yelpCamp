@@ -50,10 +50,27 @@
         </div>
         <button class="btn btn-success">Submit</button>
       </form>
+      <div class="card">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-header">
+          <h3>Reviews</h3>
+        </div>
+        <div class="card-body ">
+          <% for(let review of camp.reviews) { %>
+            <ul class="list-group list-group-flush mb-3"></ul>
+            <li class="list-group-item">Rating: <%= review.rating %>
+            </li>
+            <li class="list-group-item">Review: <%= review.body %>
+            </li>
+            </ul>
+            <% } %>
+        </div>
+        <div class="card-footer ">
+          <a href="/campgrounds">Return to Campgrounds List</a>
+        </div>
+      </div>
 
-      <!-- <div class="card-footer ">
-        <a href="/campgrounds">Return to Campgrounds List</a>
-      </div> -->
+
     </div>
 
   </div>

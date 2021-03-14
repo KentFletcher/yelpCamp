@@ -74,7 +74,7 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
 // SHOW route for individual campgrounds
 app.get('/campgrounds/:id', catchAsync(async (req, res) => {
   const { id } = req.params;
-  const camp = await Campground.findById(id);
+  const camp = await Campground.findById(id).populate('reviews');
   res.render('campgrounds/show', { camp, title: camp.title })
 }))
 
@@ -103,7 +103,7 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
 //Review Routes
 app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
   const { id } = req.params;
-  const campground = await Campground.findById(id);
+  const campground = await Campground.findById(id)
   const review = new Review(req.body.review)
   campground.reviews.push(review);
   await review.save();
