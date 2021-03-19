@@ -13,7 +13,12 @@ const campgroundsRoutes = require('./routes/campgrounds')
 const reviewsRoutes = require('./routes/reviews')
 
 //Connect to mongo DB using mongoose
-mongoose.connect('mongodb://localhost:27017/yelpCamp', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/yelpCamp', {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+})
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -27,6 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //**ROUTES**
 app.use('/campgrounds', campgroundsRoutes);
