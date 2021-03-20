@@ -4,7 +4,7 @@ const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campgrounds');
 const Review = require('../models/review');
 const ExpressError = require('../utilities/ExpressError');
-const { reviewSchema } = require('../schemas.js')
+const { reviewSchema } = require('../schemas.js');
 
 //middleware to handle server-side validation
 const validateReview = (req, res, next) => {
