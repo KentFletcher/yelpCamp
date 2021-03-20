@@ -3,7 +3,8 @@ const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campgrounds');
 const ExpressError = require('../utilities/ExpressError');
-const { campgroundSchema } = require('../schemas.js')
+const { campgroundSchema } = require('../schemas.js');
+const { Router } = require('express');
 
 //Middleware to handle server-side validation
 const validateCampground = (req, res, next) => {
@@ -39,6 +40,10 @@ router.post('/', validateCampground, catchAsync(async (req, res) => {
 router.get('/:id', catchAsync(async (req, res) => {
   const { id } = req.params;
   const camp = await Campground.findById(id).populate('reviews');
+  if (!camp) {
+    req.flash('error', 'CANNOT FIND THAT CAMPGROUND')
+    return res.redirect('/campgrounds')
+  }
   res.render('campgrounds/show', { camp, title: camp.title })
 }))
 
@@ -47,6 +52,10 @@ router.get('/:id', catchAsync(async (req, res) => {
 router.get('/:id/edit', catchAsync(async (req, res) => {
   const { id } = req.params;
   const camp = await Campground.findById(id);
+  if (!camp) {
+    req.flash('error', 'CANNOT FIND THAT CAMPGROUND')
+    return res.redirect('/campgrounds')
+  }
   res.render('campgrounds/edit', { camp, title: `Update ${camp.title}` })
 }))
 //PUT route for changing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
