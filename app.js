@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const flash = require('connect-flash');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
 
@@ -44,7 +45,14 @@ const sessionConfiguration = {
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
-app.use(session(sessionConfiguration))
+app.use(session(sessionConfiguration));
+app.use(flash());
+
+//Middleware for responding with a flash
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  next();
+})
 
 //**ROUTES**
 app.use('/campgrounds', campgroundsRoutes);
