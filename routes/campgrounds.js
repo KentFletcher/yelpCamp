@@ -5,6 +5,7 @@ const Campground = require('../models/campgrounds');
 const ExpressError = require('../utilities/ExpressError');
 const { campgroundSchema } = require('../schemas.js');
 const { Router } = require('express');
+const { isLoggedIn } = require('../middleware')
 
 //Middleware to handle server-side validation
 const validateCampground = (req, res, next) => {
@@ -24,11 +25,12 @@ router.get('/', catchAsync(async (req, res) => {
 
 //CREATE
 //serve form to create the new campground
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
   res.render('campgrounds/new', { title: 'Add Campground' })
 })
+
 //POST route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler 
-router.post('/', validateCampground, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
   const newCampground = new Campground(req.body.campground);
   await newCampground.save();
   req.flash('success', 'Thanks for adding a new campground!')
@@ -49,7 +51,7 @@ router.get('/:id', catchAsync(async (req, res) => {
 
 //UPDATE 
 //GET route to render the new form for updating the information
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
   const { id } = req.params;
   const camp = await Campground.findById(id);
   if (!camp) {
@@ -58,8 +60,9 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
   }
   res.render('campgrounds/edit', { camp, title: `Update ${camp.title}` })
 }))
+
 //PUT route for changing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
-router.put('/:id', validateCampground, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
   const { id } = req.params;
   const updatedCamp = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { runValidators: true, new: true });
   req.flash('success', `Successfully updated ${updatedCamp.title} Campground!`);
@@ -68,7 +71,7 @@ router.put('/:id', validateCampground, catchAsync(async (req, res) => {
 
 //DESTROY
 //Delete route to find a specific instance of one campground and remove that camp and all its data from the database.
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
   const { id } = req.params;
   await Campground.findByIdAndDelete(id);
   req.flash('success', `Successfully deleted Campground!`)
