@@ -2,22 +2,33 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const catchAsync = require('../utilities/catchAsync');
+const passport = require('passport');
+const session = require('express-session');
 
 router.get('/register', (req, res) => {
   res.render('users/register', { title: 'Register' })
 })
 
 router.post('/register', catchAsync(async (req, res, next) => {
-  const { username, email, password } = req.body;
-  const user = new User({ username, email });
-  const newUser = await User.register(user, password);
-  res.send(newUser)
+  try {
+    const { username, email, password } = req.body;
+    const user = new User({ username, email });
+    const newUser = await User.register(user, password);
+    req.flash('success', 'Welcome to YelpCamp!')
+    res.redirect('/campgrounds');
+  } catch (e) {
+    req.flash('error', e.message);
+    res.redirect('register')
+  }
 }))
 
-// app.get('/fakeUser', async (req, res) => {
-//   //   const user = new User({ email: 'kfsOne@gmail.com', username: 'kfsOne' });
-//   //   const newUser = await User.register(user, 'chicken');//The register method being called on User, takes the entire user model, or the instanceof the model (user, from the line above), and then a password(chicken, in this example), its then going to hash that password, adds a salt and stores both the hashed password and the salt on the user.
-//   //   res.send(newUser)
-//   // })
+router.get('/login', (req, res) => {
+  res.render('users/login', { title: 'Login' })
+})
+
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), (req, res) => {
+  req.flash('success', `Welcome back ${req.user.username}!`);
+  res.redirect('/campgrounds');
+})
 
 module.exports = router;
