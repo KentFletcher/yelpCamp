@@ -59,7 +59,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser()); // Generates a function that is used by Passport to serialize (store data or start session) users into the session.  Comes from the plugin on the model
 passport.deserializeUser(User.deserializeUser()); //Generates a function that is used by Passport to deserialize (basically end a session) users into the session. Comes from the plugin on the model
 
-//Middleware for responding with a flash
+//Middleware for responding with a flash message
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
@@ -67,12 +67,6 @@ app.use((req, res, next) => {
 })
 
 //**ROUTES**
-// app.get('/fakeUser', async (req, res) => {
-//   const user = new User({ email: 'kfsOne@gmail.com', username: 'kfsOne' });
-//   const newUser = await User.register(user, 'chicken');//The register method being called on User, takes the entire user model, or the instanceof the model (user, from the line above), and then a password(chicken, in this example), its then going to hash that password, adds a salt and stores both the hashed password and the salt on the user.
-//   res.send(newUser)
-// })
-
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes)
 app.use('/', userRoutes)
