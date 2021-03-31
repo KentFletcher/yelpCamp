@@ -32,6 +32,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 //POST route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler 
 router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
   const newCampground = new Campground(req.body.campground);
+  newCampground.author = req.user._id;
   await newCampground.save();
   req.flash('success', 'Thanks for adding a new campground!')
   res.redirect(`/campgrounds/${newCampground._id}`)
@@ -41,7 +42,7 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => 
 // SHOW route for individual campgrounds
 router.get('/:id', catchAsync(async (req, res) => {
   const { id } = req.params;
-  const camp = await Campground.findById(id).populate('reviews');
+  const camp = await Campground.findById(id).populate('reviews').populate('author');
   if (!camp) {
     req.flash('error', 'CANNOT FIND THAT CAMPGROUND')
     return res.redirect('/campgrounds')
@@ -57,6 +58,9 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
   if (!camp) {
     req.flash('error', 'CANNOT FIND THAT CAMPGROUND')
     return res.redirect('/campgrounds')
+  } else if (camp.author != req.user._id) {
+    req.flash('error', "Only the author can edit campground!!");
+    return res.redirect(`/campgrounds/${camp.id}`)
   }
   res.render('campgrounds/edit', { camp, title: `Update ${camp.title}` })
 }))
