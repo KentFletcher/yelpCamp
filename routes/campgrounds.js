@@ -58,7 +58,7 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
   if (!camp) {
     req.flash('error', 'CANNOT FIND THAT CAMPGROUND')
     return res.redirect('/campgrounds')
-  } else if (camp.author != req.user._id) {
+  } else if (!camp.author.equals(req.user._id)) {
     req.flash('error', "Only the author can edit campground!!");
     return res.redirect(`/campgrounds/${camp.id}`)
   }
@@ -68,6 +68,11 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
 //PUT route for changing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
 router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
   const { id } = req.params;
+  const campground = await Campground.findById(id)
+  if (!camp.author.equals(req.user._id)) {
+    req.flash('error', "Only the author can edit campground!!");
+    return res.redirect(`/campgrounds/${camp.id}`)
+  }
   const updatedCamp = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { runValidators: true, new: true });
   req.flash('success', `Successfully updated ${updatedCamp.title} Campground!`);
   res.redirect(`/campgrounds/${updatedCamp._id}`)
@@ -77,7 +82,7 @@ router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) =
 //Delete route to find a specific instance of one campground and remove that camp and all its data from the database.
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
   const { id } = req.params;
-  await Campground.findByIdAndDelete(id);
+  const camp = await Campground.findByIdAndDelete(id);
   req.flash('success', `Successfully deleted Campground!`)
   res.redirect('/campgrounds')
 }))
