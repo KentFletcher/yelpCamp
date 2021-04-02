@@ -2,31 +2,9 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campgrounds');
-const ExpressError = require('../utilities/ExpressError');
 const { campgroundSchema } = require('../schemas.js');
 const { Router } = require('express');
-const { isLoggedIn } = require('../middleware')
-
-//Middleware to handle server-side validation
-const validateCampground = (req, res, next) => {
-  const { error } = campgroundSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map(ele => ele.message).join(',')
-    throw new ExpressError(msg, 400)
-  } else {
-    next()
-  }
-}
-
-const isAuthor = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const campground = await Campground.findById(id)
-  if (!campground.author.equals(req.user._id)) {
-    req.flash('error', "Only the author can edit campground!!");
-    return res.redirect(`/campgrounds/${id}`)
-  }
-  next();
-})
+const { isLoggedIn, validateCampground, isAuthor } = require('../middleware');
 
 //Campground routes
 router.get('/', catchAsync(async (req, res) => {
