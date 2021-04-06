@@ -5,16 +5,13 @@ const User = require('../models/user');
 const catchAsync = require('../utilities/catchAsync');
 const users = require('../controllers/users')
 
-router.get('/register', users.renderRegisterForm)
+router.route('/register')
+  .get(users.renderRegisterForm)
+  .post(catchAsync(users.registerUser))
 
-router.post('/register', catchAsync(users.registerUser))
-
-router.get('/login', users.renderLogInForm)
-
-router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
-  users.logInUser
-)
+router.route('/login')
+  .get(users.renderLogInForm)
+  .post(passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), users.logInUser)
 
 router.get('/logout', users.logoutUser)
 
