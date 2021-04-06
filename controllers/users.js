@@ -1,5 +1,4 @@
 const User = require('../models/user');
-
 const session = require('express-session');
 
 module.exports.renderRegisterForm = (req, res) => {
