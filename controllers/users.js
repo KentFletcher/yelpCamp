@@ -25,7 +25,7 @@ module.exports.renderLogInForm = (req, res) => {
   res.render('users/login', { title: 'Login' })
 }
 
-module.exports.logInUser = (req, res) => {
+module.exports.loginUser = (req, res) => {
   req.flash('success', `Welcome back ${req.user.username}!`);
   const redirectUrl = req.session.returnToUrl || '/campgrounds';
   delete req.session.returnToUrl;
