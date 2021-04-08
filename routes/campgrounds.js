@@ -2,13 +2,19 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campgrounds');
-const { campgroundSchema } = require('../schemas.js');
+const { campgroundSchema, reviewSchema } = require('../schemas.js');
 const { isLoggedIn, validateCampground, isAuthor } = require('../middleware');
 const campgrounds = require('../controllers/campgrounds')
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 router.route('/')
   .get(catchAsync(campgrounds.index))
-  .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createNewCampground))//route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler 
+  // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createNewCampground))//route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler 
+  .post(upload.array('image'), (req, res) => {
+    console.log(req.body, req.files)
+    res.send('It worked??')
+  })
 
 //CREATE
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)//serve form to create the new campground

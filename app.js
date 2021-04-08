@@ -1,4 +1,8 @@
 //Installed dependencies and libraries
+if (process.env.NODE_ENV !== 'production') {//checking to see if we are in development mode
+  require('dotenv').config();//if we are in 'development' mode, then look in the .env file when prompted for sensitive variables
+}
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
