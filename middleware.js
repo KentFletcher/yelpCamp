@@ -55,3 +55,10 @@ module.exports.validateReview = (req, res, next) => {
     next()
   }
 }
+
+module.exports.returnToPage = (req, res, next) => {
+  if (!req.returnToUrl) {
+    req.session.returnToUrl = req.headers.referer;
+  }
+  next();
+}
