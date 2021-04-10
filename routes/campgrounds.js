@@ -18,7 +18,7 @@ router.get('/new', isLoggedIn, campgrounds.renderNewForm)//serve form to create 
 
 router.route('/:id')
   .get(catchAsync(campgrounds.showCampground))//READ/ SHOW route for individual campgrounds
-  .put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.editCampground))//PUT route for editing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
+  .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, catchAsync(campgrounds.editCampground))//PUT route for editing/updating data about a single/specific campground, then insert into the database, and then redirect and display the newly updated instance 
   .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground))//DESTROY/ Delete route to find a specific instance of one campground and remove that camp and all its data from the database.
 
 //UPDATE 

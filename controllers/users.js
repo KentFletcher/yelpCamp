@@ -2,7 +2,6 @@ const User = require('../models/user');
 const session = require('express-session');
 
 module.exports.renderRegisterForm = (req, res) => {
-  // console.log(req.session.returnToUrl, req.headers)
   res.render('users/register', { title: 'Register' })
 }
 
