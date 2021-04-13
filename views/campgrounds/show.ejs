@@ -33,7 +33,11 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
-                <% } %>
+                <% } else if(camp.images.length < 1) {%>
+                  <img class="img-fluid"
+                    src="https://res.cloudinary.com/dqas0e9l7/image/upload/v1617917654/YelpCamp/tijjwxmxohttz8o28ye3.jpg"
+                    alt="">
+                  <% } %>
       </div>
       <div class="card mb-3">
         <div class="card-body">
@@ -137,5 +141,8 @@
 
           <script>
             const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+            // const campground = <%- JSON.stringify(camp) %>;//Way that was demonstrated to send entire object, not needed and created error warnings, also had to disable auto-formatting for the ejs to work.  Did not like either of these issues so that is why I did what I did with long and lat
+            const long = '<%- camp.geometry.coordinates[0] %>';
+            const lat = '<%- camp.geometry.coordinates[1] %>';
           </script>
           <script src="/js/showPageMap.js"></script>
