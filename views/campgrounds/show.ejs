@@ -145,5 +145,7 @@
             // const campground = <%- JSON.stringify(camp) %>;//Way that was demonstrated to send entire object, not needed and created error warnings, also had to disable auto-formatting for the ejs to work.  Did not like either of these issues so that is why I did what I did with long and lat
             const long = '<%- camp.geometry.coordinates[0] %>';
             const lat = '<%- camp.geometry.coordinates[1] %>';
+            const campgroundTitle = '<%- camp.title %>';
+            const campgroundLocation = '<%- camp.location %>';
           </script>
           <script src="/js/showPageMap.js"></script>

@@ -13,4 +13,10 @@ const marker = new mapboxgl.Marker({
 })
   // .setLngLat(campground.geometry.coordinates)//from the way it was demonstrated, but had some issues on the ejs side of things, also do not need entire object
   .setLngLat([long, lat])
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 })
+      .setHTML(
+        `<h3>${campgroundTitle}</h3><h6>${campgroundLocation}</p>`
+      )
+  )
   .addTo(map);
