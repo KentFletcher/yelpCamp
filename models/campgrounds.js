@@ -18,6 +18,17 @@ imageSchema.virtual('showImage').get(function () {
 const campgroundSchema = new Schema({
   title: String,
   images: [imageSchema],
+  geometry: {
+    type: {
+      type: String,
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  },
   price: String,
   description: String,
   location: String,
