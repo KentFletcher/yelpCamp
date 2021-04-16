@@ -2,6 +2,7 @@
 
   <div class="row">
     <div class="col-6 ">
+
       <div id="campgroundCarousel" class="carousel slide" data-bs-ride="true">
         <% if (camp.images.length>1 && camp.images.length < 10){ %>
             <div class="carousel-indicators">
@@ -32,7 +33,11 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
-                <% } %>
+                <% } else if(camp.images.length < 1) {%>
+                  <img class="img-fluid"
+                    src="https://res.cloudinary.com/dqas0e9l7/image/upload/v1617917654/YelpCamp/tijjwxmxohttz8o28ye3.jpg"
+                    alt="">
+                  <% } %>
       </div>
       <div class="card mb-3">
         <div class="card-body">
@@ -73,6 +78,7 @@
       </div>
     </div>
     <div class="col-6">
+      <div id='map'></div>
       <% if(currentUser){ %>
         <h2>Leave a Review</h2>
         <form action="/campgrounds/<%= camp._id %>/reviews" method="POST" class="mb-3 needs-validation" novalidate>
@@ -133,3 +139,9 @@
                 <% } %>
             </div>
           </div>
+
+          <script>
+            const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+            const campground = <%- JSON.stringify(camp) %>;
+          </script>
+          <script src="/js/showPageMap.js"></script>
