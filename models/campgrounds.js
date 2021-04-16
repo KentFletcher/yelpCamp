@@ -15,6 +15,8 @@ imageSchema.virtual('showImage').get(function () {
   return this.url.replace('/upload', '/upload/w_636,h_424,c_fill,g_auto:subject');
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const campgroundSchema = new Schema({
   title: String,
   images: [imageSchema],
@@ -42,6 +44,10 @@ const campgroundSchema = new Schema({
       ref: 'Review'
     }
   ]
+}, opts);
+
+campgroundSchema.virtual('properties.popUpMarkup').get(function () {
+  return `<h4><a href="/campgrounds/${this._id}">${this.title}</a></h4> <h5>${this.location}</h5>`;
 });
 
 //Middleware - Removes the reviews associated with a given campground from the DB when the campground is deleted
