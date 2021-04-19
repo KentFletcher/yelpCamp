@@ -1,8 +1,7 @@
 <% layout('layout/boilerplate') %>
 
   <div class="row">
-    <div class="col-6 ">
-
+    <div class="col-md-6">
       <div id="campgroundCarousel" class="carousel slide" data-bs-ride="true">
         <% if (camp.images.length>1 && camp.images.length < 10){ %>
             <div class="carousel-indicators">
@@ -77,7 +76,7 @@
             </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6">
       <div id='map'></div>
       <% if(currentUser){ %>
         <h2>Leave a Review</h2>
