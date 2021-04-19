@@ -9,12 +9,12 @@
     <div class="card mb-3">
       <div class="row">
         <div class="col-md-4">
-          <% if(camp.images.length> 0){ %>
-            <img class="img-fluid" src="<%=camps.indexOf(camp) % 2===0 ? camp.images[0].url: camp.images[1].url %>"
+          <% if(camp.images.length > 0){ %>
+            <img class="img-fluid" src="<%= camp.images.length < 2 ? camp.images[0].url : camps.indexOf(camp) % 2===0 ? camp.images[0].url: camp.images[1].url %>"
               alt="">
           <% }else{ %>
             <img class="img-fluid"
-              src="https://res.cloudinary.com/dqas0e9l7/image/upload/v1617986231/YelpCamp/mybsjxobvql03rh9bcts.jpg"
+              src="https://res.cloudinary.com/dqas0e9l7/image/upload/v1618858487/YelpCamp/wq81urhqbjshlz8timqd.jpg"
               alt="">
           <% } %>
         </div>
