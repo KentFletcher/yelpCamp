@@ -1,14 +1,10 @@
 <% layout('layout/boilerplate') %>
 
-  <div id="map">
-
+  <div class="mb-3" id="map"></div>
+  <div class="d-grid  gap-2 d-md-block mb-3 d-md-flex justify-content-md-center">
+    <a class="btn btn-info" href="/campgrounds/new">Add New Campground</a>
   </div>
-
-  <h1>All Campgrounds</h1>
-  <div>
-    <a href="/campgrounds/new">Add New Campground</a>
-  </div>
-
+  <h1 class="display-3 text-center mb-3 text-decoration-underline">All Campgrounds</h1>
   <% for (let camp of camps) { %>
     <div class="card mb-3">
       <div class="row">
@@ -16,11 +12,11 @@
           <% if(camp.images.length> 0){ %>
             <img class="img-fluid" src="<%=camps.indexOf(camp) % 2===0 ? camp.images[0].url: camp.images[1].url %>"
               alt="">
-            <% }else{ %>
-              <img class="img-fluid"
-                src="https://res.cloudinary.com/dqas0e9l7/image/upload/v1617986231/YelpCamp/mybsjxobvql03rh9bcts.jpg"
-                alt="">
-              <% } %>
+          <% }else{ %>
+            <img class="img-fluid"
+              src="https://res.cloudinary.com/dqas0e9l7/image/upload/v1617986231/YelpCamp/mybsjxobvql03rh9bcts.jpg"
+              alt="">
+          <% } %>
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -33,15 +29,19 @@
             <p class="text-muted">
               <%= camp.location %>
             </p>
-            <a class="btn btn-primary" href="/campgrounds/<%= camp._id %> ">View <%= camp.title%></a>
+            <div class="d-grid gap-2 d-md-block">
+              <a class="btn btn-primary" href="/campgrounds/<%= camp._id %> ">View <%= camp.title%></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <% } %>
-      <script>
-        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-        const campgrounds = {features:<%- JSON.stringify(camps) %>}
-      </script>
+  <% } %>
 
-      <script src="/js/indexClusterMap.js"></script>
+    //variables to be used in the indexClusterMap.js file
+    <script>
+      const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+      const campgrounds = {features:<%- JSON.stringify(camps) %>}
+    </script>
+    //inporting in the indexClusterMap.js to display cluster map
+    <script src="/js/indexClusterMap.js"></script>
