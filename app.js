@@ -49,11 +49,13 @@ app.use(mongoSanitize({
 }));
 
 const sessionConfiguration = {
+  name: 'session',
   secret: 'thisshouldbeabettersecret',
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
@@ -70,7 +72,6 @@ passport.deserializeUser(User.deserializeUser()); //Generates a function that is
 
 //Middleware for responding with a flash message
 app.use((req, res, next) => {
-  console.log(req.query);
   res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
