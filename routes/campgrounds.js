@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 router.route('/')
   .get(catchAsync(campgrounds.index))
-  .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.createNewCampground))//route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler 
+  .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.createNewCampground))//route where the form from new route will be submitted. Then create the new campground, insert into the database, then redirect and display the newly created instance, validateCampground is the server-side error handler
 
 //CREATE
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)//serve form to create the new campground
