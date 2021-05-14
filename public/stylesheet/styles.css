@@ -18,3 +18,9 @@
   display: flex;
   align-items: center;
 }
+
+#index-description-container{
+  overflow-y: scroll; 
+  height: 100px;
+}
+    
